@@ -2,16 +2,15 @@ FROM debian:bookworm-slim
 
 # Install only required dependencies
 RUN apt-get update && apt-get install -y \
-    unzip curl libssl3 libcurl4 libstdc++6 python3 \
+    unzip curl libssl3 libcurl4 libstdc++6 python3 jq git tar \
     && rm -rf /var/lib/apt/lists/*
-
 
 # Set working directory
 WORKDIR /server
 
 # Copy scripts into container
-COPY start.sh install_playit.sh entrypoint.sh ./
-RUN chmod +x start.sh install_playit.sh entrypoint.sh
+COPY start.sh install_playit.sh entrypoint.sh auto-backup.sh backup.sh restore.sh ./
+RUN chmod +x start.sh install_playit.sh entrypoint.sh auto-backup.sh backup.sh restore.sh
 
 # Copy Bedrock server zip and unzip it
 COPY bedrock-server.zip /server/
